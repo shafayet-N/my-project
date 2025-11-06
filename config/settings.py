@@ -1,6 +1,12 @@
 from pathlib import Path
 import os
 
+
+# Collect static automatically
+if os.environ.get("VERCEL"):
+    import django.core.management
+    django.core.management.call_command('collectstatic', '--noinput')
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "CHANGE_ME")
