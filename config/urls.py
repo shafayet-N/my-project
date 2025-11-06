@@ -1,9 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("core.urls")),   # all your pages
+    path("", include("core.urls")),
+    path("accounts/", include("accounts.urls")),
+    path("orders/", include("orders.urls")),
+    path("writers/", include("writers.urls")),
 ]
 
-urlpatterns += static(setting.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
