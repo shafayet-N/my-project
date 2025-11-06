@@ -2,11 +2,10 @@
   "builds": [
     {
       "src": "manage.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/bash"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     }
   ],
   "routes": [
@@ -14,6 +13,5 @@
       "src": "/(.*)",
       "dest": "manage.py"
     }
-  ],
-  "outputDirectory": "staticfiles"
+  ]
 }
