@@ -1,38 +1,19 @@
-# Add these imports at the top of config/settings.py
-import os
-from pathlib import Path
-
-# ... existing code ...
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "CHANGE_ME")
-DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["*"]
-
-# ... existing INSTALLED_APPS and MIDDLEWARE ...
-
-# Update DATABASES to use environment variables
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'railway'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+{
+  "builds": [
+    {
+      "src": "manage.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/bash"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "manage.py"
+    }
+  ],
+  "outputDirectory": "staticfiles"
 }
-
-# ... rest of settings ...
-
-# Add this for static files handling
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Add this for production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
